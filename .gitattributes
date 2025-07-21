@@ -1,0 +1,5 @@
+# Set default behavior for all text files to be normalized (LF in repo)
+* text=auto
+
+# Force node_modules folder to be treated as binary (no line ending conversion)
+node_modules/** -text

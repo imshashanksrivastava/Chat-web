@@ -1,0 +1,226 @@
+:root {
+  --primary-color: #4c8bf5;
+  --secondary-color: #ff6f91;
+  --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --text-light: #f0f0f0;
+  --text-dark: #222;
+  --shadow-light: rgba(255, 255, 255, 0.15);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  --font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background: var(--background-gradient);
+  color: var(--text-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.container {
+  background: rgba(255 255 255 / 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px var(--shadow-dark);
+  max-width: 600px;
+  width: 100%;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+header .highlight {
+  color: var(--secondary-color);
+  text-shadow: 0 0 8px var(--secondary-color);
+}
+
+.tagline {
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+}
+
+.chat-preview {
+  background: rgba(255 255 255 / 0.15);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px var(--shadow-dark);
+  margin-bottom: 2rem;
+  position: relative;
+  min-height: 150px;
+  overflow-y: auto;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.6rem 1rem;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  box-shadow: 0 3px 8px var(--shadow-dark);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp 0.6s forwards;
+}
+
+.message.sent {
+  background: var(--primary-color);
+  align-self: flex-end;
+  color: white;
+}
+
+.message.received {
+  background: var(--secondary-color);
+  align-self: flex-start;
+  color: white;
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: var(--text-light);
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.features {
+  margin-bottom: 2rem;
+}
+
+.features h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 6px var(--shadow-dark);
+}
+
+.features ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.features li {
+  font-size: 1.1rem;
+  background: rgba(255 255 255 / 0.1);
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 3px 12px var(--shadow-dark);
+  transition: background 0.3s ease;
+  cursor: default;
+}
+
+.features li:hover {
+  background: rgba(255 255 255 / 0.25);
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.btn {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  box-shadow: 0 6px 12px var(--shadow-dark);
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: white;
+  user-select: none;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  box-shadow: 0 6px 12px var(--primary-color);
+}
+
+.btn-primary:hover {
+  background: #3a6be0;
+  box-shadow: 0 8px 16px #3a6be0;
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+  box-shadow: 0 6px 12px var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background: #e05c7e;
+  box-shadow: 0 8px 16px #e05c7e;
+}
+
+/* Responsive */
+
+@media (max-width: 480px) {
+  .features ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .auth-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

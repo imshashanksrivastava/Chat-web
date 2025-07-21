@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Awesome Chat</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap" />
+  <style>
+    body {
+      background: #e6ecf3;
+      font-family: 'Inter', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    .main-layout {
+      display: flex;
+      height: 96vh;
+      max-width: 1800px;
+      width: 98vw;
+      margin: 2vh auto 2vh auto;
+      box-shadow: 0 8px 32px rgba(60,72,100,0.10);
+      border-radius: 1.2rem;
+      overflow: hidden;
+      background: #fff;
+    }
+    .sidebar {
+      width: 340px;
+      background: #f7fafd;
+      border-right: 1.5px solid #e0e7ff;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      position: relative;
+    }
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+      background: #f7fafd;
+    }
+    .sidebar-myavatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #4f8cff 60%, #6ee7b7 100%);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .sidebar-myname {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: #212529;
+      margin-left: 0.9rem;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+      display: inline-block;
+    }
+    .sidebar-settings {
+      background: none;
+      border: none;
+      color: #6366f1;
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-left: 0.7rem;
+      transition: color 0.2s;
+    }
+    .sidebar-settings:hover {
+      color: #0d6efd;
+    }
+    .sidebar-header {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #6366f1;
+      padding: 0.2rem 1.2rem 0.5rem 1.2rem;
+      letter-spacing: 0.5px;
+      background: #f7fafd;
+    }
+    .sidebar-search {
+      padding: 0 1.2rem 1rem 1.2rem;
+      background: #f7fafd;
+      position: relative;
+    }
+    .sidebar-search input {
+      width: 100%;
+      border-radius: 2rem;
+      border: 1.5px solid #e0e7ff;
+      padding: 0.5rem 1.1rem 0.5rem 2.2rem;
+      font-size: 1rem;
+      background: #f8fafc;
+      outline: none;
+      transition: border 0.2s;
+      box-shadow: 0 1px 4px rgba(99,102,241,0.04);
+    }
+    .sidebar-search input:focus {
+      border: 1.5px solid #6366f1;
+      background: #fff;
+    }
+    .sidebar-search .search-icon {
+      position: absolute;
+      left: 1.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    .user-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+      overflow-y: auto;
+      background: #f7fafd;
+    }
+    .user-list li {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 1.2rem;
+      border-radius: 0.7rem;
+      margin: 0.2rem 0.7rem;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      position: relative;
+      min-height: 60px;
+    }
+    .user-list li.active, .user-list li:hover {
+      background: #e0e7ff;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.07);
+    }
+    .user-list .user-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #6366f1 60%, #0d6efd 100%);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-right: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(99,102,241,0.10);
+      position: relative;
+    }
+    .user-list .user-avatar.online::after {
+      content: '';
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      width: 10px;
+      height: 10px;
+      background: #4ade80;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(76,222,128,0.10);
+    }
+    .user-list .user-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .user-list .user-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .user-list .user-name {
+      font-size: 1.08rem;
+      font-weight: 500;
+      color: #212529;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-list .user-last-time {
+      font-size: 0.92rem;
+      color: #a0aec0;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+    .user-list .user-last-message {
+      font-size: 0.97rem;
+      color: #7b8190;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 0.1rem;
+    }
+    .unread-badge {
+      margin-left: 0.5rem;
+      background: #dc3545;
+      color: #fff;
+      border-radius: 1rem;
+      padding: 0.25em 0.7em;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(220,53,69,0.12);
+      animation: pop 0.3s;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.7); }
+      80% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .chat-panel {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #f3f7fb url('https://www.transparenttextures.com/patterns/symphony.png');
+      background-blend-mode: lighten;
+      border-radius: 0 1.2rem 1.2rem 0;
+      box-shadow: none;
+    }
+    .chat-header {
+      background: #fff;
+      color: #212529;
+      padding: 1.1rem 1.7rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1.5px solid #e0e7ff;
+      letter-spacing: 0.5px;
+      position: relative;
+      min-height: 70px;
+      box-shadow: 0 2px 8px rgba(60,72,100,0.04);
+    }
+    .chat-header .chat-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #6366f1 60%, #0d6efd 100%);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-right: 1rem;
+      cursor: pointer;
+      border: 2px solid #e0e7ff;
+      box-shadow: 0 1px 4px rgba(99,102,241,0.10);
+      transition: box-shadow 0.2s;
+    }
+    .chat-header .chat-avatar:hover {
+      box-shadow: 0 2px 8px rgba(99,102,241,0.18);
+    }
+    .chat-header .chat-header-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .chat-header .chat-header-name {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: #212529;
+    }
+    .chat-header .chat-header-status {
+      font-size: 0.95rem;
+      color: #7b8190;
+      font-weight: 400;
+    }
+    .chat-header .chat-header-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+    }
+    .chat-header .icon-btn {
+      background: none;
+      border: none;
+      color: #6366f1;
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    .chat-header .icon-btn:hover {
+      background: #e0e7ff;
+    }
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2.2rem 2.2rem 1.2rem 2.2rem;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      scroll-behavior: smooth;
+    }
+    .message {
+      display: inline-block;
+      max-width: 70%;
+      padding: 0.7rem 1.2rem;
+      border-radius: 1.1rem 1.1rem 1.1rem 0.4rem;
+      background: #fff;
+      color: #212529;
+      box-shadow: 0 2px 8px rgba(60,72,100,0.07);
+      position: relative;
+      word-break: break-word;
+      transition: background 0.2s, box-shadow 0.2s;
+      animation: fadeIn 0.3s;
+      margin-bottom: 0.2rem;
+      margin-top: 0.2rem;
+      font-size: 1.05rem;
+    }
+    .message.self {
+      margin-left: auto;
+      background: linear-gradient(120deg, #6366f1 60%, #0d6efd 100%);
+      color: #fff;
+      border-radius: 1.1rem 1.1rem 0.4rem 1.1rem;
+    }
+    .message.other {
+      margin-right: auto;
+      background: #fff;
+      color: #212529;
+      border-radius: 1.1rem 1.1rem 1.1rem 0.4rem;
+    }
+    .message strong {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.1rem;
+      display: block;
+      letter-spacing: 0.2px;
+    }
+    .message .timestamp {
+      font-size: 0.8rem;
+      color: #a0aec0;
+      margin-top: 0.2rem;
+      display: block;
+      text-align: right;
+      margin-left: auto;
+      margin-right: 0.1rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #form {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1.1rem 2.2rem;
+      background: #fff;
+      border-top: 1.5px solid #e0e7ff;
+      box-shadow: 0 -2px 8px rgba(60,72,100,0.04);
+      position: relative;
+      z-index: 2;
+    }
+    #input {
+      flex: 1;
+      border-radius: 2rem;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.05rem;
+      outline: none;
+      background: #f8fafc;
+      box-shadow: 0 1px 4px rgba(99,102,241,0.07);
+    }
+    #input:focus {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.12);
+    }
+    #filePickerButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: #6366f1;
+      transition: color 0.2s;
+      margin-right: 0.2rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 50%;
+    }
+    #filePickerButton:hover {
+      color: #0d6efd;
+      background: #e0e7ff;
+    }
+    #send {
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      background: linear-gradient(90deg, #6366f1 0%, #0d6efd 100%);
+      color: #fff;
+      border: none;
+      transition: background 0.2s;
+      box-shadow: 0 1px 4px rgba(99,102,241,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    #send:hover {
+      background: linear-gradient(90deg, #0d6efd 0%, #6366f1 100%);
+    }
+    img, video {
+      max-width: 100%;
+      border-radius: 0.7rem;
+      margin-top: 0.3rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    a {
+      color: #6366f1;
+      text-decoration: underline;
+    }
+    a:hover {
+      color: #0d6efd;
+    }
+    /* Profile panel styles */
+    .profile-panel {
+      width: 320px;
+      background: #f8fafc;
+      border-left: 1.5px solid #e0e7ff;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: -2px 0 12px rgba(60,72,100,0.04);
+      transition: transform 0.3s cubic-bezier(.4,2,.6,1), opacity 0.3s;
+      transform: translateX(100%);
+      opacity: 0;
+      position: relative;
+      z-index: 10;
+    }
+    .profile-panel.active {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .profile-avatar {
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, #6366f1 60%, #0d6efd 100%);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 12px rgba(99,102,241,0.10);
+      border: 3px solid #fff;
+    }
+    .profile-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 0.5rem;
+    }
+    .profile-info {
+      color: #6366f1;
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .profile-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #6366f1;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .profile-close:hover {
+      color: #0d6efd;
+    }
+    .notes-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #6366f1;
+      margin-bottom: 1.1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-layout">
+    <!-- Sidebar: User List -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-myavatar" id="sidebarMyAvatar"></div>
+        <span class="sidebar-myname" id="sidebarMyName"></span>
+        <button class="sidebar-settings" title="Settings"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Zm7.94-2.06a1 1 0 0 0 .21 1.09l.06.06a2 2 0 0 1 0 2.83l-1.42 1.42a2 2 0 0 1-2.83 0l-.06-.06a1 1 0 0 0-1.09-.21 1 1 0 0 0-.62.92V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.09a1 1 0 0 0-.62-.92 1 1 0 0 0-1.09.21l-.06.06a2 2 0 0 1-2.83 0l-1.42-1.42a2 2 0 0 1 0-2.83l.06-.06a1 1 0 0 0 .21-1.09 1 1 0 0 0-.92-.62H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09a1 1 0 0 0 .92-.62 1 1 0 0 0-.21-1.09l-.06-.06a2 2 0 0 1 0-2.83l1.42-1.42a2 2 0 0 1 2.83 0l.06.06a1 1 0 0 0 1.09.21h.01a1 1 0 0 0 .62-.92V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v.09a1 1 0 0 0 .62.92h.01a1 1 0 0 0 1.09-.21l.06-.06a2 2 0 0 1 2.83 0l1.42 1.42a2 2 0 0 1 0 2.83l-.06.06a1 1 0 0 0-.21 1.09v.01a1 1 0 0 0 .92.62H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.09a1 1 0 0 0-.92.62Z"/></svg></button>
+      </div>
+      <div class="sidebar-header">Chats</div>
+      <div class="sidebar-search">
+        <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M15.5 15.5 19 19m-3.5-3.5A6.5 6.5 0 1 0 5 5a6.5 6.5 0 0 0 11.5 11.5Z"/></svg></span>
+        <input type="text" id="sidebarSearch" placeholder="Search chats..." />
+      </div>
+      <ul id="user-list" class="user-list"></ul>
+    </aside>
+    <!-- Main Chat Panel -->
+    <section class="chat-panel">
+      <header class="chat-header">
+        <div class="d-flex align-items-center">
+          <div class="chat-avatar" id="chatAvatar" title="View profile"></div>
+          <div class="chat-header-info">
+            <span class="chat-header-name" id="chatHeaderName">Awesome Chat</span>
+            <span class="chat-header-status" id="chatHeaderStatus">Online</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="icon-btn" title="Search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M15.5 15.5 19 19m-3.5-3.5A6.5 6.5 0 1 0 5 5a6.5 6.5 0 0 0 11.5 11.5Z"/></svg></button>
+          <button class="icon-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="6" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="18" r="1.5" fill="currentColor"/></svg></button>
+        </div>
+        <button class="btn btn-outline-light btn-sm logout-button" onclick="logout()">Logout</button>
+      </header>
+      <div id="messages"></div>
+      <form id="form" autocomplete="off" enctype="multipart/form-data">
+        <input id="input" placeholder="Type a message..." />
+        <input type="file" id="fileInput" style="display:none" accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.ppt,.pptx" />
+        <button type="button" id="filePickerButton" title="Attach file">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M17 17V7a5 5 0 0 0-10 0v10a5 5 0 0 0 10 0V8a3 3 0 0 0-6 0v8"/></svg>
+        </button>
+        <button id="send" type="submit" title="Send">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="m4 12 1.5 1.5M4 12l1.5-1.5M4 12h16"/></svg>
+        </button>
+      </form>
+    </section>
+    <!-- Profile Panel (hidden by default) -->
+    <aside class="profile-panel" id="profilePanel">
+      <button class="profile-close" id="closeProfile">&times;</button>
+      <div class="profile-avatar" id="profileAvatar"></div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+      <button id="uploadAvatarBtn" style="display:none; margin-bottom:1rem;" class="btn btn-outline-primary btn-sm">Change Picture</button>
+      <div class="profile-name" id="profileName">User Name</div>
+      <div class="profile-info" id="profileInfo">User info goes here.</div>
+      <div class="profile-email" id="profileEmail"></div>
+      <div class="profile-status" id="profileStatus"></div>
+      <div class="profile-bio" id="profileBio"></div>
+      <button id="editProfileBtn" style="display:none; margin-top:1.2rem;" class="btn btn-primary btn-sm">Edit Profile</button>
+    </aside>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Profile panel show/hide logic only
+    document.addEventListener('DOMContentLoaded', function() {
+      const profilePanel = document.getElementById('profilePanel');
+      const closeProfile = document.getElementById('closeProfile');
+      const chatAvatar = document.getElementById('chatAvatar');
+      if (chatAvatar) {
+        chatAvatar.addEventListener('click', () => {
+          profilePanel.classList.add('active');
+        });
+      }
+      if (closeProfile) {
+        closeProfile.addEventListener('click', () => {
+          profilePanel.classList.remove('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat App - Welcome</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pap94...=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to <span class="highlight">Chat App</span></h1>
+      <p class="tagline">Connect instantly, share freely.</p>
+    </header>
+
+    <section class="chat-preview">
+      <div class="chat-box" id="chat-box">
+        <!-- Messages injected by JS -->
+      </div>
+      <div class="typing-indicator" id="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>Features</h2>
+      <ul>
+        <li><i class="fas fa-comments"></i> Real-time messaging</li>
+        <li><i class="fas fa-file-upload"></i> Media sharing</li>
+        <li><i class="fas fa-lock"></i> Secure login</li>
+        <li><i class="fas fa-mobile-alt"></i> Responsive design</li>
+      </ul>
+    </section>
+
+    <section class="auth-buttons">
+      <a href="/login.html" class="btn btn-primary">Login</a>
+      <a href="/register.html" class="btn btn-secondary">Register</a>
+    </section>
+  </div>
+
+  <script src="home.js"></script>
+</body>
+</html>
