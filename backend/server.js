@@ -148,4 +148,5 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
+  console.log(`Base URL: http://localhost:${PORT}/`);
 });
