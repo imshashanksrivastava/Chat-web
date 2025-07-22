@@ -9,7 +9,6 @@ A modern, full-stack real-time chat application with user authentication, media 
 - Media/file sharing in chat
 - User profile with avatar, status, and bio
 - Dashboard with unread message counts
-- Chat notes (private notes per chat)
 - Responsive, modern UI (vanilla JS, CSS, Bootstrap)
 - Secure password hashing
 
@@ -18,7 +17,7 @@ A modern, full-stack real-time chat application with user authentication, media 
 ```
 Chat web/
 ├── backend/
-│   ├── models/         # Mongoose models (User, Chat, Note)
+│   ├── models/         # Mongoose models (User, Chat)
 │   ├── routes/         # Express API routes (auth, users)
 │   ├── uploads/        # Uploaded files (avatars, media)
 │   ├── server.js       # Main backend server (Express + Socket.io)
@@ -71,7 +70,7 @@ No build step required. The backend serves the frontend static files. Simply ope
 - Register a new account or log in.
 - Access the dashboard to see users and unread messages.
 - Start a private chat, send messages, and share files.
-- Edit your profile and chat notes.
+- Edit your profile.
 
 ## API Endpoints (Summary)
 - `POST /api/auth/register` — Register new user
@@ -86,7 +85,6 @@ No build step required. The backend serves the frontend static files. Simply ope
 ## Models (Summary)
 - **User:** username, email, password (hashed), status, bio, avatar
 - **Chat:** sender, receiver, message, type (text/file), fileUrl, readBy, timestamp
-- **Note:** writer, chatWith, note
 
 ## License
 MIT 
