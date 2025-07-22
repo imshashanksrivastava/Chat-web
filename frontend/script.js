@@ -19,10 +19,6 @@ const sidebarMyAvatar = document.getElementById('sidebarMyAvatar');
 const sidebarSearch = document.getElementById('sidebarSearch');
 const chatHeaderName = document.getElementById('chatHeaderName');
 const chatHeaderStatus = document.getElementById('chatHeaderStatus');
-const notesPanel = document.getElementById('notesPanel');
-const notesTextarea = document.getElementById('notesTextarea');
-const saveNotesBtn = document.getElementById('saveNotesBtn');
-const notesSavedMsg = document.getElementById('notesSavedMsg');
 
 // Redirect if not logged in
 if (!username) {
@@ -539,48 +535,6 @@ avatarInput.addEventListener('change', async () => {
     alert('Failed to upload avatar.');
   }
 });
-
-// Load note for current chat
-async function loadChatNote() {
-  try {
-    const token = localStorage.getItem('token');
-    const res = await fetch(`/api/users/notes/${chatPartner}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) throw new Error('Failed to fetch note');
-    const data = await res.json();
-    notesTextarea.value = data.note || '';
-  } catch (err) {
-    notesTextarea.value = '';
-  }
-}
-
-// Save note for current chat
-saveNotesBtn.addEventListener('click', async () => {
-  try {
-    const token = localStorage.getItem('token');
-    const note = notesTextarea.value;
-    const res = await fetch(`/api/users/notes/${chatPartner}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ note })
-    });
-    if (!res.ok) throw new Error('Failed to save note');
-    notesSavedMsg.style.display = '';
-    setTimeout(() => { notesSavedMsg.style.display = 'none'; }, 1500);
-  } catch (err) {
-    notesSavedMsg.style.display = 'none';
-    alert('Failed to save note.');
-  }
-});
-
-// Load note when chat loads or chatPartner changes
-if (notesPanel && notesTextarea) {
-  loadChatNote();
-}
 
 // Set sidebar avatar to initial and show full username next to it
 sidebarMyAvatar.textContent = username[0].toUpperCase();

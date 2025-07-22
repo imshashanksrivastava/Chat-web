@@ -51,13 +51,4 @@ UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Add Note model for chat notes
-const NoteSchema = new mongoose.Schema({
-  writer: { type: String, required: true }, // username of note writer
-  chatWith: { type: String, required: true }, // username of chat partner
-  note: { type: String, default: '' },
-}, { timestamps: true });
-
-module.exports.Note = mongoose.model('Note', NoteSchema);
-
 module.exports = mongoose.model('User', UserSchema);

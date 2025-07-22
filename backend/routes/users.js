@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const Chat = require('../models/Chat');
 const multer = require('multer');
 const path = require('path');
-const { Note } = require('../models/User');
+// Removed: const { Note } = require('../models/User');
 
 // Middleware to verify JWT token
 function authMiddleware(req, res, next) {
@@ -147,31 +147,6 @@ router.post('/:username/avatar', authMiddleware, avatarUpload.single('avatar'), 
       { new: true }
     ).select('-password');
     res.json({ avatar: avatarUrl, user });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// GET /api/notes/:chatWith - get note for current user and chat partner
-router.get('/notes/:chatWith', authMiddleware, async (req, res) => {
-  try {
-    const note = await Note.findOne({ writer: req.user.username, chatWith: req.params.chatWith });
-    res.json({ note: note ? note.note : '' });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// POST /api/notes/:chatWith - save/update note for current user and chat partner
-router.post('/notes/:chatWith', authMiddleware, async (req, res) => {
-  try {
-    const { note } = req.body;
-    const updated = await Note.findOneAndUpdate(
-      { writer: req.user.username, chatWith: req.params.chatWith },
-      { note },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-    res.json({ success: true, note: updated.note });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
